@@ -19,7 +19,7 @@ else
 fi
 
 # IMAGE UPDATE
-IMAGE="ghcr.io/maciejborkow/bizfinder-v2:prod"
+IMAGE="to/replace"
 # Get local digest
 LOCAL_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $IMAGE | cut -d'@' -f2)
 # Get remote digest 

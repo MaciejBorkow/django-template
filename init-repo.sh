@@ -20,7 +20,7 @@ uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django \
 cd "../$PROJECT_NAME"
 uv sync
 # debug enable in vscode
-uv add debugpy
+uv add --dev debugpy
 echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debugpy#waiting-for-the-client-to-attach  and then config lunch.json and connect VScode by 'Run and Debug'." >> README.md 
 # CI
 git init
@@ -31,7 +31,6 @@ cp ../django-template/configs/pre-push .git/hooks/
 # TODO: autonaprawa linteróœw przez agenta
 # TODO: autonaprawa testów przez agenta
 # CD - build image
-mkdir -p .github/workflows
 cp ../django-template/configs/docker-image.yml .github/workflows/docker-image.yml #TODO uniwersalne nazwy Dockerfile, compose, build
 sed -E -i '/^  django: &django$/,/^    volumes:$/ {
   /^    build:$/,/^    image: .*_production_django$/c\

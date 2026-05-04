@@ -1,5 +1,5 @@
 default_context:
-  project_name: "bizcentrum"
+  # project_name: "bizcentrum"
   description: "A Django backend project."
   author_name: "Maciej Borkowski"
   domain_name: "example.com" 

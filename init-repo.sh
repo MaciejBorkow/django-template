@@ -1,9 +1,22 @@
-# TODO: project name from a parameter
+#!/bin/bash
+
+set -euo pipefail
+
+PROJECT_NAME="${1:-}"
+
+if [ -z "$PROJECT_NAME" ]; then
+  echo "Usage: $0 <project_name>"
+  exit 1
+fi
+
 uv tool install "cookiecutter>=1.7.0"
-uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django --no-input \
+uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django \
+  --no-input \
   --config-file ./config.yaml \
-  --output-dir ../
-cd ../bizcentrum # TODO - project name parsed as parameter
+  --output-dir ../ \
+  "project_name=$PROJECT_NAME"
+
+cd "../$PROJECT_NAME"
 uv sync
 # debug enable in vscode
 uv add debugpy
@@ -18,7 +31,8 @@ cp ../django-template/pre-push .git/hooks/
 # TODO: autonaprawa testów przez agenta
 # CD - build image
 # TODO: naming uniwersalny Dockerfile, compose, .sh 
-cp ../django-template/.github/workflows/deploy.yml .github/workflows/ #TODO uniwersalne nazwy Dockerfile, compose, build
+mkdir -p .github/workflows
+cp ../django-template/docker-image.yml .github/workflows/deploy.yml #TODO uniwersalne nazwy Dockerfile, compose, build
 # CD - pull image from server
 cp ../django-template/update-image.sh . # TODO - uniwersalne nazwy pull, build
 cp ../django-template/update-image.cron . # TODO - uniwersalne nazwy pull, build

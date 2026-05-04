@@ -1,0 +1,63 @@
+name: Docker Image CI
+# TODO: !!!!! dopasować nazwy obrazów i serwisów do generyka
+on:
+  push:
+    branches: [ "prod" ]
+  pull_request:
+    branches: [ "prod" ]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    # 1. Grant permissions to write to GitHub Packages
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Log in to GitHub Container Registry
+    - name: Log in to the Container registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    # 3. Build, tag, and push the image
+    - name: Build and push the Docker image
+      run: |
+        # Docker tags must be entirely lowercase.
+        # This prevents build failures if your GitHub username has uppercase letters.
+        OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+
+        # Use repository name as image name (lowercased).
+        REPO_LC=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+
+        # Use source branch name for both push and pull_request events.
+        BRANCH_RAW="${{ github.head_ref || github.ref_name }}"
+
+        # Convert branch to a Docker-safe tag.
+        TAG=$(echo "$BRANCH_RAW" \
+          | tr '[:upper:]' '[:lower:]' \
+          | sed -E 's#[^a-z0-9_.-]+#-#g; s#^-+##; s#-+$##')
+
+        # Fallback to short SHA if branch name becomes empty after sanitization.
+        if [ -z "$TAG" ]; then
+          TAG="sha-${GITHUB_SHA::7}"
+        fi
+
+        # Format: ghcr.io/<owner>/<image-name>:<tag>
+        IMAGE_TAG="${{ env.REGISTRY }}/$OWNER_LC/$REPO_LC:$TAG"
+
+        # Build the image with the new GHCR-compliant tag
+        docker build . --file Dockerfile --target bizfinder-dev --tag $IMAGE_TAG
+
+        # Push the image to the registry
+        docker push $IMAGE_TAG

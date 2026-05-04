@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Run Ruff checks and formatting via uv
+uv run ruff check --fix .
+uv run ruff format .
+
+# Automatically stage any files that Ruff modified
+# (Only stages files that are already tracked by Git)
+git add -u

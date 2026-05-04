@@ -3,7 +3,8 @@
 set -euo pipefail
 
 PROJECT_NAME="${1:-}"
-IMAGE_REPO="ghcr.io/maciejb/${PROJECT_NAME}_django:prod"
+GIT_USER=$(git remote get-url origin | sed -E 's#.*[:/]([^/]+)/[^/]+\.git#\1#' | tr '[:upper:]' '[:lower:]')
+IMAGE_REPO="ghcr.io/${GIT_USER}/${PROJECT_NAME}_django:prod"
 
 if [ -z "$PROJECT_NAME" ]; then
   echo "Usage: $0 <project_name>"

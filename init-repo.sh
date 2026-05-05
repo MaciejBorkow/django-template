@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 PROJECT_NAME=$(echo "${1:-}" | tr '[:upper:]' '[:lower:]' | tr '-' '_')
 GIT_USER=$(git remote get-url origin | sed -E 's#.*[:/]([^/]+)/[^/]+\.git#\1#' | tr '[:upper:]' '[:lower:]')
@@ -70,11 +70,13 @@ docker compose -f docker-compose.local.yml run --rm django python manage.py migr
 docker compose -f docker-compose.local.yml run --rm django python manage.py collectstatic
 docker compose -f docker-compose.local.yml up -d
 
-# check project generation
-# pre-commit run --all-files
-just test
-# just type
-
-# git init
+# fix pre-commit formatting
+git add .
+if ! uv run pre-commit run --all-files; then
+  echo "pre-commit failed; continuing with the remaining setup steps"
+fi
 git add .
 git commit -m "Initial commit"
+
+# check project
+just test

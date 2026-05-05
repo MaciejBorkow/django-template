@@ -1,0 +1,8 @@
+
+# test: Run pytest in container
+test *args:
+    @docker compose run --rm django uv run pytest {{args}}
+
+# typing: Check typing in containe
+type args=".":
+    @docker compose run --rm django uv run mypy  {{args}}

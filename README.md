@@ -1,4 +1,7 @@
-1. Change project name in "config.yaml" in field "project_name", "description", "domain_name", "email"
-1. Install `uv`
-1. Install `sudo apt-get install -y libpq-dev postgresql-client`
-2. Run `init-repo.sh`
+Setup django project with one command based on latest [django-cookiecutter](https://github.com/cookiecutter/cookiecutter-django)
+
+1. Local development requires:
+- postgres libs `sudo apt-get install -y libpq-dev postgresql-client`
+- docker
+- uv
+2. To setup a project run `init-repo.sh <project_name>`

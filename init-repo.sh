@@ -11,9 +11,6 @@ if [ -z "$PROJECT_NAME" ]; then
   exit 1
 fi
 
-# SETUP host
-# https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally-docker.html
-
 # init django project
 uv tool install "cookiecutter>=1.7.0"
 uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django \
@@ -24,40 +21,52 @@ uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django \
 
 cd "../$PROJECT_NAME"
 uv sync
-# debug enabled in vscode
+
+# enable debugpy in vscode
 uv add --dev debugpy
 echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debugpy#waiting-for-the-client-to-attach  and then config lunch.json and connect VScode by 'Run and Debug'." >> README.md 
+
 # CI
+# CI - git
 git init
 cp ../django-template/configs/pre-commit .git/hooks/
 uv run pre-commit install -t pre-push
+# CI - test
+ echo ../django-template/configs/justfile >> justfile
 # TODO: mypy, typing django - w precommit i może naprawa przez agenta
 # TODO: testy w pre-commit albo jakaś szyvka konmenda
 # TODO: autonaprawa linteróœw przez agenta
 # TODO: autonaprawa testów przez agenta
+
+# CD
 # CD - build image
 cp ../django-template/configs/docker-image.yml .github/workflows/docker-image.yml #TODO uniwersalne nazwy Dockerfile, compose, build
 sed -E -i '/^  django: &django$/,/^    volumes:$/ {
   /^    build:$/,/^    image: .*_production_django$/c\
     image: '"${IMAGE_REPO}"'
 }' docker-compose.production.yml
+
 # CD - pull image on production server
 cp ../django-template/configs/update-image.sh ./compose/production/update-image.sh
 sed -E -i "s|^IMAGE=.*$|IMAGE=\"${IMAGE_REPO}\"|" ./compose/production/update-image.sh
 cp ../django-template/configs/setup-server.sh ./compose/production/setup-server.sh
 chmod +x ./compose/production/setup-server.sh
 echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on production server. It adds crontab to pull image and git." >> README.md 
+# TODO auto setup for a server 
+
 # Observability
 # grafana
 #TODO
 # sentry
 # TODO
-# Build
+
+# Local Build
 docker compose -f docker-compose.local.yml build
 docker compose -f docker-compose.local.yml run --rm django uv lock
 docker compose -f docker-compose.local.yml build
 docker compose -f docker-compose.local.yml run --rm django python manage.py migrate
 docker compose -f docker-compose.local.yml run --rm up -d
+# TODO: run pytest, mypy, prehook, prepush
 
 # git init
 git add .

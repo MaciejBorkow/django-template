@@ -3,7 +3,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_PATH="$(dirname "$SCRIPT_DIR")"
+REPO_PATH="$(dirname "$(dirname "$SCRIPT_DIR")")"
 cd "$REPO_PATH"
 
 git fetch origin

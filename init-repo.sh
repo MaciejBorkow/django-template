@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-PROJECT_NAME="${1:-}"
+PROJECT_NAME=$(echo "${1:-}" | tr '[:upper:]' '[:lower:]' | tr '-' '_')
 GIT_USER=$(git remote get-url origin | sed -E 's#.*[:/]([^/]+)/[^/]+\.git#\1#' | tr '[:upper:]' '[:lower:]')
 IMAGE_REPO="ghcr.io/${GIT_USER}/${PROJECT_NAME}_django:prod"
 

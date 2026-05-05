@@ -32,7 +32,7 @@ git init
 cp ../django-template/configs/pre-commit .git/hooks/
 uv run pre-commit install -t pre-push
 # CI - test
- echo ../django-template/configs/justfile >> justfile
+ cat ../django-template/configs/justfile >> justfile
 # TODO: mypy, typing django - w precommit i może naprawa przez agenta
 # TODO: testy w pre-commit albo jakaś szyvka konmenda
 # TODO: autonaprawa linteróœw przez agenta
@@ -61,13 +61,13 @@ echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on pr
 # TODO
 
 # Local Build
-docker compose -f docker-compose.local.yml build
+docker compose -f docker-compose.local.yml down -v --rmi all --remove-orphans
+docker compose -f docker-compose.local.yml build --no-cache
 docker compose -f docker-compose.local.yml run --rm django uv lock
 docker compose -f docker-compose.local.yml build
 docker compose -f docker-compose.local.yml run --rm django python manage.py migrate
 docker compose -f docker-compose.local.yml run --rm django python manage.py collectstatic
-
-docker compose -f docker-compose.local.yml run --rm up -d
+docker compose -f docker-compose.local.yml up -d
 
 # check project generation
 # pre-commit run --all-files

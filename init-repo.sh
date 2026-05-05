@@ -11,6 +11,10 @@ if [ -z "$PROJECT_NAME" ]; then
   exit 1
 fi
 
+# SETUP host
+# https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally-docker.html
+
+# init django project
 uv tool install "cookiecutter>=1.7.0"
 uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django \
   --no-input \
@@ -20,7 +24,7 @@ uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django \
 
 cd "../$PROJECT_NAME"
 uv sync
-# debug enable in vscode
+# debug enabled in vscode
 uv add --dev debugpy
 echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debugpy#waiting-for-the-client-to-attach  and then config lunch.json and connect VScode by 'Run and Debug'." >> README.md 
 # CI

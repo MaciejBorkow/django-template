@@ -6,3 +6,11 @@ test *args:
 # typing: Check typing in containe
 type args=".":
     @docker compose run --rm django uv run mypy  {{args}}
+
+# run: run a command in django container
+run +args:
+    @docker compose run --rm django {{args}}
+
+# exec: exec a command in running django container
+exec +args:
+    @docker compose exec django {{args}}

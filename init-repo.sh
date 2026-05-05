@@ -65,8 +65,14 @@ docker compose -f docker-compose.local.yml build
 docker compose -f docker-compose.local.yml run --rm django uv lock
 docker compose -f docker-compose.local.yml build
 docker compose -f docker-compose.local.yml run --rm django python manage.py migrate
+docker compose -f docker-compose.local.yml run --rm django python manage.py collectstatic
+
 docker compose -f docker-compose.local.yml run --rm up -d
-# TODO: run pytest, mypy, prehook, prepush
+
+# check project generation
+# pre-commit run --all-files
+just test
+# just type
 
 # git init
 git add .

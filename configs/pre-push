@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# Run Ruff checks and formatting via uv
-pre-commit
-# TODO: run tests on pre-push

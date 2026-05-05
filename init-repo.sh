@@ -56,6 +56,9 @@ echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on pr
 docker compose -f docker-compose.local.yml build
 docker compose -f docker-compose.local.yml run --rm django uv lock
 docker compose -f docker-compose.local.yml build
+docker compose -f docker-compose.local.yml run --rm django python manage.py migrate
+docker compose -f docker-compose.local.yml run --rm up -d
+
 # git init
 git add .
 git commit -m "Initial commit"

@@ -26,7 +26,7 @@ echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debug
 # CI
 git init
 cp ../django-template/configs/pre-commit .git/hooks/
-pre-commit install -t pre-push
+uv run pre-commit install -t pre-push
 # TODO: mypy, typing django - w precommit i może naprawa przez agenta
 # TODO: testy w pre-commit albo jakaś szyvka konmenda
 # TODO: autonaprawa linteróœw przez agenta
@@ -40,9 +40,9 @@ sed -E -i '/^  django: &django$/,/^    volumes:$/ {
 # CD - pull image on production server
 cp ../django-template/configs/update-image.sh ./compose/production/update-image.sh
 sed -E -i "s|^IMAGE=.*$|IMAGE=\"${IMAGE_REPO}\"|" ./compose/production/update-image.sh
-cp ../django-template/configs/setup-server.sh ../compose/production/setup-server.sh
-chmod +x update-image.sh ./compose/production/setup-server.sh
-echo -e "\n## PRODUCTION SERVER\nRun`setup-server.sh` on production server. It adds crontab to pull image and git." >> README.md 
+cp ../django-template/configs/setup-server.sh ./compose/production/setup-server.sh
+chmod +x ./compose/production/setup-server.sh
+echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on production server. It adds crontab to pull image and git." >> README.md 
 # Observability
 # grafana
 #TODO

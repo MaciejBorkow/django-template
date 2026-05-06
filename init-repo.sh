@@ -30,9 +30,9 @@ echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debug
 # CI - git
 git init
 cp ../django-template/configs/pre-commit .git/hooks/
+cp ../django-template/configs/pre-push .
 uv run pre-commit install -t pre-push
-echo -e "\njust test" >> .git/hooks/pre-push
-echo -e "\njust type" >> .git/hooks/pre-push
+sed -i '2i ./pre-push' .git/hooks/pre-push
 # CI - test
  cat ../django-template/configs/justfile >> justfile
 # TODO: mypy, typing django - w precommit i może naprawa przez agenta

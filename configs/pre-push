@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+just test
+just type

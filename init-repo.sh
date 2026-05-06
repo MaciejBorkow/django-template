@@ -29,6 +29,7 @@ echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debug
 # CI
 # CI - git
 git init
+cat ../django-template/configs/gitignore >> .gitignore
 echo -e "\n## REPOINIT\n'gh repo create ${PROJECT_NAME} --private --source=. --push'\n" >> README.md 
 cp ../django-template/configs/pre-commit .git/hooks/
 cp ../django-template/configs/pre-push .
@@ -44,7 +45,7 @@ sed -E -i '/^  django: &django$/,/^    volumes:$/ {
   /^    build:$/,/^    image: .*_production_django$/c\
     image: '"${IMAGE_REPO}"'
 }' docker-compose.production.yml
-sed -i "s/'main'/'prod'/g" /home/maciejb/development/private/bizhub3/.github/workflows/ci.yml
+sed -i "s/'main'/'prod'/g" ./.github/workflows/ci.yml
 
 # CD - pull image on production server
 cp ../django-template/configs/update-image.sh ./compose/production/update-image.sh

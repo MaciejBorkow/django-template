@@ -29,16 +29,13 @@ echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debug
 # CI
 # CI - git
 git init
+echo -e "\n## REPOINIT\n'gh repo create <repo-name> --private --source=. --push'\n" >> README.md 
 cp ../django-template/configs/pre-commit .git/hooks/
 cp ../django-template/configs/pre-push .
 uv run pre-commit install -t pre-push
 sed -i '2i ./pre-push' .git/hooks/pre-push
 # CI - test
  cat ../django-template/configs/justfile >> justfile
-# TODO: mypy, typing django - w precommit i może naprawa przez agenta
-# TODO: testy w pre-commit albo jakaś szyvka konmenda
-# TODO: autonaprawa linteróœw przez agenta
-# TODO: autonaprawa testów przez agenta
 
 # CD
 # CD - build image

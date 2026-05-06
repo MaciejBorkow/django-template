@@ -55,7 +55,7 @@ jobs:
         IMAGE_TAG="${{ env.REGISTRY }}/$OWNER_LC/${REPO_LC}_django:$TAG"
 
         # Build the image with the new GHCR-compliant tag
-        docker build . --file Dockerfile --tag $IMAGE_TAG
+        docker build -f compose/production/django/Dockerfile -t $IMAGE_TAG .
 
         # Push the image to the registry
         docker push $IMAGE_TAG

@@ -57,6 +57,14 @@ chmod +x ./compose/production/setup-server.sh
 echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on production server. It adds crontab to pull image and git." >> README.md 
 # TODO auto setup for a server 
 
+# TODO lista CD - Doprowadzenie DJnago do wyświetlenia pod 0.0.0.0
+# add  '|| Host(`0.0.0.0`)' to the end of Host(`example.com`)
+# usnąć nazwy obrazów w docker-compose dla celery
+# odpalić migracje w django
+# DJANGO_ALLOWED_HOSTS=0.0.0.0 zdodać albo zmienić w .envs prod
+# TODO CD - tls, https
+# TODO config treafik na http standardowo.
+
 
 # Observability
 # grafana

@@ -28,7 +28,7 @@ REMOTE_DIGEST=$(docker manifest inspect $IMAGE | grep -Po '(?<="digest": ")[^"]*
 if [ "$LOCAL_DIGEST" != "$REMOTE_DIGEST" ]; then
     echo "New image available: $REMOTE_DIGEST"
     docker pull $IMAGE
-    docker compose -f docker-compose.prod.yml up -d
+    docker compose -f docker-compose.production.yml up -d
     docker image prune -f
 else
     echo "Image is up to dateeeee."

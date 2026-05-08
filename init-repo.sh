@@ -83,3 +83,5 @@ git commit -m "Initial commit"
 
 # check project
 just test
+gh repo create "${PROJECT_NAME}" --private --source=. --remote=origin --push
+

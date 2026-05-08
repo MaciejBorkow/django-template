@@ -37,6 +37,8 @@ uv run pre-commit install -t pre-push
 sed -i '2i ./pre-push' .git/hooks/pre-push
 # CI - test
  cat ../django-template/configs/justfile >> justfile
+# CI - remove dependabot
+rm -rf .github/dependabot.yml
 
 # CD
 # CD - build image

@@ -55,7 +55,7 @@ cp ../django-template/configs/update-image.sh ./compose/production/update-image.
 sed -E -i "s|^IMAGE=.*$|IMAGE=\"${IMAGE_REPO}\"|" ./compose/production/update-image.sh
 cp ../django-template/configs/setup-server.sh ./compose/production/setup-server.sh
 chmod +x ./compose/production/setup-server.sh
-echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on production server. It adds crontab to pull image and git." >> README.md 
+echo -e "\n## PRODUCTION SERVER\nRun './compose/production/setup-server.sh' on production server. It adds crontab to pull image and git." >> README.md 
 
 # CD - traefik production
 mv ./compose/production/traefik/traefik.yml ./compose/production/traefik/traefik.yml.old

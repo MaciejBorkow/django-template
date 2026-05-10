@@ -61,7 +61,7 @@ echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on pr
 mv ./compose/production/traefik/traefik.yml ./compose/production/traefik/traefik.yml.old
 cp ../django-template/configs/traefik.yml ./compose/production/traefik/traefik.yml
 # CD - make production use http on 8000 port
-sed -i 's/0\.0\.0\.0:80/0.0.0.0:8000/g' docker-compose.production.yml
+sed -i 's/0\.0\.0\.0:80:80/0.0.0.0:8000:8000/g' docker-compose.production.yml
 # CD - remove image names where it inherite from on django build
 sed -i '/production_celeryworker/d;/production_celerybeat/d;/production_flower/d' docker-compose.production.yml
 # CD - set production allowed hosts

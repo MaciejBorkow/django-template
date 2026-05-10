@@ -49,21 +49,22 @@ sed -E -i '/^  django: &django$/,/^    volumes:$/ {
 }' docker-compose.production.yml
 sed -i "s/'main'/'prod'/g" ./.github/workflows/ci.yml
 
-# CD - pull image on production server
+# CD - build and pull services on production server
 cp ../django-template/configs/update-image.sh ./compose/production/update-image.sh
 sed -E -i "s|^IMAGE=.*$|IMAGE=\"${IMAGE_REPO}\"|" ./compose/production/update-image.sh
 cp ../django-template/configs/setup-server.sh ./compose/production/setup-server.sh
 chmod +x ./compose/production/setup-server.sh
 echo -e "\n## PRODUCTION SERVER\nRun`./compose/production/setup-server.sh` on production server. It adds crontab to pull image and git." >> README.md 
-# TODO auto setup for a server 
 
-# TODO lista CD - Doprowadzenie DJnago do wyświetlenia pod 0.0.0.0
-# add  '|| Host(`0.0.0.0`)' to the end of Host(`example.com`)
-# usnąć nazwy obrazów w docker-compose dla celery
-# odpalić migracje w django
-# DJANGO_ALLOWED_HOSTS=0.0.0.0 zdodać albo zmienić w .envs prod
-# TODO CD - tls, https
-# TODO config treafik na http standardowo.
+# CD - traefik production
+mv ./compose/production/traefik/traefik.yml ./compose/production/traefik/traefik.yml.old
+cp ../django-template/configs/traefik.yml ./compose/production/traefik/traefik.yml
+# CD - make production use http on 8000 port
+sed -i 's/0\.0\.0\.0:80/0.0.0.0:8000/g' docker-compose.production.yml
+# CD - remove image names where it inherite from on django build
+sed -i '/production_celeryworker/d;/production_celerybeat/d;/production_flower/d' docker-compose.production.yml
+# CD - set production allowed hosts
+sed -E -i 's|^DJANGO_ALLOWED_HOSTS=.*$|DJANGO_ALLOWED_HOSTS=0.0.0.0|' .envs/.production/.django
 
 
 # Observability

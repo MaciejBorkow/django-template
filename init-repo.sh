@@ -38,6 +38,7 @@ sed -i '2i ./pre-push' .git/hooks/pre-push
 # CI - test
  cat ../django-template/configs/justfile >> justfile
 # CI - remove dependabot
+# TODO!!!!!!!: add dependabot config to update image and git repo after all fixex
 rm -rf .github/dependabot.yml
 
 # CD

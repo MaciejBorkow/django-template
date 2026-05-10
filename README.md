@@ -13,4 +13,5 @@ Run `init-repo.sh <project_name>`
 1. Authorize github and `gh` command.
 1. Add Github docker registry.
 1. Pull repo from Github 'gh repo clone MaciejBorkow/<repo_name>'
+1. Copy .envs/.production `scp -r .envs/.production user@host_IP:/home/maciejb/,project_name>/.envs/'
 1. Run `./compose/production/setup-server.sh` on the server

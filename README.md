@@ -14,4 +14,5 @@ Run `init-repo.sh <project_name>`
 1. Add Github docker registry.
 1. Pull repo from Github 'gh repo clone MaciejBorkow/<repo_name>'
 1. Copy .envs/.production `scp -r .envs/.production user@host_IP:/home/maciejb/,project_name>/.envs/'
+1. Set DJANGO_ALLOWED_HOSTS in .django to server IP!!!!!!
 1. Run `./compose/production/setup-server.sh` on the server

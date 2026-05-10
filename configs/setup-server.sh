@@ -12,6 +12,10 @@ DOCKER_COMPOSE="$SCRIPT_DIR/../../docker-compose.production.yml"
 
 CRON_JOB="* * * * * $UPDATE_SCRIPT >> $LOG_FILE 2>&1"
 
+# setup server
+sudo snap install --classic just
+
+
 # run server
 docker compose -f "$DOCKER_COMPOSE" build
 docker compose -f "$DOCKER_COMPOSE" pull django

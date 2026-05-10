@@ -10,7 +10,7 @@ entryPoints:
 http:
   routers:
     web-router:
-      rule: 'Host(`0.0.0.0`)'
+      rule: 'Host(`0.0.0.0`) || Host(`192.168.0.10`)'
       entryPoints:
         - web
       middlewares:
@@ -18,13 +18,13 @@ http:
       service: django
 
     flower-router:
-      rule: 'Host(`0.0.0.0`)'
+      rule: 'Host(`0.0.0.0`) || Host(`192.168.0.10`)'
       entryPoints:
         - flower
       service: flower
 
     web-media-router:
-      rule: 'Host(`0.0.0.0`) && PathPrefix(`/media/`)'
+      rule: 'Host(`0.0.0.0`) || Host(`192.168.0.10`) && PathPrefix(`/media/`)'
       entryPoints:
         - web
       middlewares:

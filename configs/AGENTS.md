@@ -61,3 +61,8 @@ This file is the repository instruction entrypoint for coding agents. Use it as 
 - The published image format is `ghcr.io/<owner>/<repo>_django:<tag>`.
 - The image tag is derived from the source branch name after Docker-safe sanitization.
 - Production deploy operations are script-based under `compose/production/`, including `setup-server.sh` and `update-image.sh`.
+
+# Access Restrictions
+Do NOT read, index, or modify the following paths:
+- `logs/` (Application logs)
+- Any file matching `*.sqlite3` or `*.log`

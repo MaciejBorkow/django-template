@@ -21,6 +21,8 @@ uvx cookiecutter https://github.com/cookiecutter/cookiecutter-django \
 
 cd "../$PROJECT_NAME"
 uv sync
+rm README.md
+touch README.md
 
 # enable debugpy in vscode
 uv add --dev debugpy
@@ -73,6 +75,7 @@ rm docker-compose.docs.yml
 rm -rf docs
 rm .readthedocs.yml
 # TODO clean README.md
+rm README.md
 
 # setup AGENTs.md
 cp ../django-template/configs/AGENTS.md AGENTS.md

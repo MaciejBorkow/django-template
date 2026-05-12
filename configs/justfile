@@ -15,6 +15,10 @@ run +args:
 exec +args:
     @docker compose exec django {{args}}
 
-# dcp: docker compose production file
+# dcp: docker compose production 
 dcp +args:
     @docker compose -f docker-compose.production.yml {{args}}
+
+# dc: docker compose local
+dc +args:
+    @docker compose -f docker-compose.local.yml {{args}}

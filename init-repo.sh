@@ -32,7 +32,6 @@ echo -e "\n## DEBUG\nRun debug server in code https://github.com/microsoft/debug
 # CI - git
 git init
 cat ../django-template/configs/gitignore >> .gitignore
-echo -e "\n## REPOINIT\n'gh repo create ${PROJECT_NAME} --private --source=. --push'\n" >> README.md 
 cp ../django-template/configs/pre-commit .git/hooks/
 cp ../django-template/configs/pre-push .
 uv run pre-commit install -t pre-push
@@ -74,8 +73,8 @@ rm -rf compose/local/docs
 rm docker-compose.docs.yml
 rm -rf docs
 rm .readthedocs.yml
-# TODO clean README.md
-rm README.md
+# remove docs from workflow
+sed -i '/^[[:space:]]*- name: Build and cache docs$/,/^[[:space:]]*docs.cache-to=type=gha,scope=cached-docs,mode=max$/d' .github/workflows/ci.yml
 
 # setup AGENTs.md
 cp ../django-template/configs/AGENTS.md AGENTS.md

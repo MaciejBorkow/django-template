@@ -67,6 +67,15 @@ sed -i '/production_celeryworker/d;/production_celerybeat/d;/production_flower/d
 # CD - set production allowed hosts
 sed -E -i 's|^DJANGO_ALLOWED_HOSTS=.*$|DJANGO_ALLOWED_HOSTS=0.0.0.0|' .envs/.production/.django
 
+#clean unused fiels - lean contxt for LLM
+rm -rf compose/local/docs
+rm docker-compose.docs.yml
+rm -rf docs
+rm .readthedocs.yml
+# TODO clean README.md
+
+# setup AGENTs.md
+cp ../django-template/configs/AGENTS.md AGENTS.md
 
 # Observability
 # grafana

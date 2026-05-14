@@ -12,17 +12,16 @@ This file is the repository instruction entrypoint for coding agents. Use it as 
 - Image registry: Github image registry
 - Python and packages version are in `pyproject.toml`
 
-# Architecture boundaries and rules
-- Do not introduce new architectural layers, service patterns, or storage choices unless the repo already establishes them or the change requires them.
-
- -Use Pydantic models for request and response schemas. Where a module already follows the convention, use `In` and `Out` suffixes.
-
-- Keep API transport concerns, business logic, and persistence concerns separate.
-- Keep business logic separate from Django ORM models where practical.
-- Parse request data into business objects before persistence-specific work.
+# Python software architecture boundaries and rules
+- Use Clean Architecture pattern in the following form: Entity -> Use Case -> Interface -> Data Source.
+- Entity is pydantic Class representing fundamental domain object.
+- Use Case is an operation on Entity representing essential operations from domain point of view. It uses Interfaces to external data sources. Accept only Entity and basic python data types and custom pydantic class used in Entities.
+- Interface is wrapper around data sources as Django ORM, external API, django-ninja API etc returning only datatypes essential for Entity or Entitiy.
+- Data Source is for example Postgres database, redis, external API.
+- Always write separate pydatnic class for django-ninja API  input with suffix "In" and output data with "Out" if required and translate to Entity or Django ORM if needed. Do not use Django ORM API view ModelSchema. 
+- If domain logic require long SQL query with many parameters, just make a method in DjangoORM interface and do it there without forwarding many parameters. Otherwise keep domain logic in Use Case layer.
 - Convert business objects into ORM objects only where database interaction is required.
 - Use Django ORM and Postgres as the default persistence path. Do not introduce an alternative persistence pattern without a demonstrated need.
-- Do not leak ORM objects directly into API schemas unless the existing module already does so intentionally.
 
 # Validation Contract
 - After changing Python behavior, run the narrowest relevant test first.

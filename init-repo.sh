@@ -50,6 +50,9 @@ sed -E -i '/^  django: &django$/,/^    volumes:$/ {
     image: '"${IMAGE_REPO}"'
 }' docker-compose.production.yml
 sed -i "s/'main'/'prod'/g" ./.github/workflows/ci.yml
+# CD - add user "USER dev-user" to the local Dockerfile ./compose/local/django/Dockerfile above ENTRYPOINT command
+sed -i '/^ENTRYPOINT[[:space:]]/i USER dev-user' ./compose/local/django/Dockerfile
+
 
 # CD - build and pull services on production server
 cp ../django-template/configs/update-image.sh ./compose/production/update-image.sh

@@ -26,3 +26,7 @@ dc +args:
 # ruff: check and fix ruff
 ruff:
     ./.git/hooks/pre-commit
+
+# pre-commit: run all pre-commit checks
+pre-commit:
+    uv run pre-commit run --all-files

@@ -44,8 +44,8 @@ This file is the repository instruction entrypoint for coding agents. Use it as 
 - Pytest config and linters config is in the `pyproject.toml`
 - Run `just test [pytest args]` to test.
 - Run `just type [path]` to check typing.
-- Run `just ruff` to check and fix linting and Python code formatting.
-- Run `uv run pre-commit run` to check linters.
+- Run `just ruff` to check and fix Python linting and code formatting.
+- Run `just pre-commit` to check linters.
 
 ## Commit
 - Make sure you are not on the `prod` branch. If you are on the `prod` branch, make a new branch with a meaningfull name for a task and add all changes there.

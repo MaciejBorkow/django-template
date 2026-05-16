@@ -22,3 +22,7 @@ dcp +args:
 # dc: docker compose local
 dc +args:
     @docker compose -f docker-compose.local.yml {{args}}
+
+# ruff: check and fix ruff
+ruff:
+    ./.git/hooks/pre-commit
